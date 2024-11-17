@@ -31,6 +31,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  var _noteContents = [
+    "Well the internet documenting a lot about western cultures helps sustain interest in that also living a new country helps ",
+    "The contrast of one having reduced interest in somethiing while someone has fresh or new interest in that oy same thing",
+    "Looking at something from a constructed very complicated angle suggesting that perhaps conventionally complicated things have a simplified angle",
+    "I do something with a lot of my theories about perception, focusing mostly on the 'software' and not the 'hardware' and how it evolved"
+  ];
 
   void _incrementCounter() {
     setState(() {
@@ -45,10 +51,26 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Container(height: 30, width: 30)
+      body: GridView.count(
+          crossAxisCount: 2,
+          children: List.generate(_noteContents.length, (index) {
+            return Center(
+              child: Container(
+                  width: 125,
+                  height: 125,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: const Color(0xFF000000)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Text(
+                    _noteContents[index],
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+              )
 
-      ),
+            );
+          }
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
