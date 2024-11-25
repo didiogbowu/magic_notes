@@ -1,16 +1,16 @@
-# magic_notes
+# Magic Notes
 
-A new Flutter project.
+[![Contributors][contributors-shield]][contributors-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-## Getting Started
+## About The Project
+The goal of this project was to create an application similar to Google Keep with additional features such as pagination, advanced tags, grouping of notes
 
-This project is a starting point for a Flutter application.
+## Built With
+* ![Flutter][flutter-url]
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[contributors-shield]: https://img.shields.io/badge/Contributors%20-%202?style=flat-square&label=2&color=%23FF2D20
+[contributors-url]: https://github.com/didiogbowu/sysc4907/graphs/contributors
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/didi-ogbowu/
+[flutter-url]: https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white
