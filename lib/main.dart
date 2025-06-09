@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final newNoteController = TextEditingController();
   var _noteContents = [
     "Well the internet documenting a lot about western cultures helps sustain interest in that also living a new country helps ",
     "The contrast of one having reduced interest in somethiing while someone has fresh or new interest in that oy same thing",
@@ -38,9 +38,16 @@ class _MyHomePageState extends State<MyHomePage> {
     "I do something with a lot of my theories about perception, focusing mostly on the 'software' and not the 'hardware' and how it evolved"
   ];
 
-  void _incrementCounter() {
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    newNoteController.dispose();
+    super.dispose();
+  }
+
+  void pushNewNote(String newNote) {
     setState(() {
-      _counter++;
+      _noteContents.add(newNote);
     });
   }
 
@@ -75,14 +82,20 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => showDialog<String>(
           context: context,
           builder: (BuildContext context) => Dialog(
+
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: TextField(
-                decoration: InputDecoration(hintText: 'Start a new note...'),
+                controller: newNoteController,
+                decoration: InputDecoration(border: InputBorder.none, hintText: 'Start a new note...'),
               ),
             ),
           )
-        ),
+        ).then((value) {
+          pushNewNote(newNoteController.text);
+          print(_noteContents);
+          newNoteController.text = "";
+        }),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
