@@ -72,7 +72,17 @@ class _MyHomePageState extends State<MyHomePage> {
           }
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(hintText: 'Start a new note...'),
+              ),
+            ),
+          )
+        ),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
