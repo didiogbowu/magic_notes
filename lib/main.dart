@@ -45,6 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  void modifyNote(int nodeIndex, String newContents) {
+    setState(() {
+      _noteContents[nodeIndex] = newContents;
+    });
+  }
   void pushNewNote(String newNote) {
     setState(() {
       _noteContents.add(newNote);
@@ -61,20 +66,44 @@ class _MyHomePageState extends State<MyHomePage> {
       body: GridView.count(
           crossAxisCount: 2,
           children: List.generate(_noteContents.length, (index) {
-            return Center(
-              child: Container(
-                  width: 125,
-                  height: 125,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: const Color(0xFF000000)),
-                    borderRadius: const BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: Text(
-                    _noteContents[index],
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  )
-              )
+            return GestureDetector(
+              onTap: () {
+                // Edit
+                newNoteController.text = _noteContents[index];
+                showDialog(context: context, builder: (BuildContext context) => Dialog(
 
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: TextField(
+                      controller: newNoteController,
+                      decoration: InputDecoration(border: InputBorder.none),
+                    ),
+                  ),
+                )).then((value) {
+                  modifyNote(index, newNoteController.text);
+                  print(_noteContents);
+                  newNoteController.text = "";
+                });
+
+              },
+              onLongPress: () {
+
+              },
+              child: Center(
+                child: Container(
+                    width: 125,
+                    height: 125,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1.0, color: const Color(0xFF000000)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
+                    ),
+                    child: Text(
+                      _noteContents[index],
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    )
+                )
+
+            )
             );
           }
       )),
