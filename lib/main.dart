@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,44 +67,28 @@ class _MyHomePageState extends State<MyHomePage> {
       body: GridView.count(
           crossAxisCount: 2,
           children: List.generate(_noteContents.length, (index) {
-            return GestureDetector(
-              onTap: () {
-                // Edit
-                newNoteController.text = _noteContents[index];
-                showDialog(context: context, builder: (BuildContext context) => Dialog(
+            return Tile(
+                content: _noteContents[index],
+                modifySelf: () {
+                  // Edit
+                  newNoteController.text = _noteContents[index];
+                  showDialog(context: context, builder: (BuildContext context) => Dialog(
 
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: TextField(
-                      controller: newNoteController,
-                      decoration: InputDecoration(border: InputBorder.none),
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: TextField(
+                        controller: newNoteController,
+                        decoration: InputDecoration(border: InputBorder.none),
+                      ),
                     ),
-                  ),
-                )).then((value) {
-                  modifyNote(index, newNoteController.text);
-                  print(_noteContents);
-                  newNoteController.text = "";
-                });
+                  )).then((value) {
+                    modifyNote(index, newNoteController.text);
+                    print(_noteContents);
+                    newNoteController.text = "";
+                  });
+                },
+                popSelf: () => setState(() => _noteContents.removeAt(index))
 
-              },
-              onLongPress: () {
-
-              },
-              child: Center(
-                child: Container(
-                    width: 125,
-                    height: 125,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1.0, color: const Color(0xFF000000)),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))
-                    ),
-                    child: Text(
-                      _noteContents[index],
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                )
-
-            )
             );
           }
       )),
@@ -128,6 +113,56 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+
+class Tile extends StatefulWidget {
+  Tile({super.key, required this.content, required this.modifySelf, required this.popSelf});
+
+  String content;
+  Function() modifySelf;
+  Function() popSelf;
+
+  State<Tile> createState() => _TileState();
+}
+
+class _TileState extends State<Tile> {
+  Widget build(BuildContext context) {
+    return SubmenuButton(
+      menuChildren: [MenuItemButton(
+        onPressed: () {
+          print("Pop requested");
+          widget.popSelf();
+        },
+        child: Text("Pop"),
+      )],
+      style: ButtonStyle(
+        padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.all(0.0)),
+      ),
+      menuStyle: MenuStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0.0)),
+      ),
+      child: GestureDetector(
+
+        onLongPress: widget.modifySelf,
+        child: Center(
+            child: Container(
+                width: 125,
+                height: 125,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: const Color(0xFF000000)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))
+                ),
+                child: Text(
+                  widget.content,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                )
+            )
+
+        )
+      )
     );
   }
 }
